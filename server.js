@@ -1,15 +1,16 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const passport = require("passport");
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
-const methodOverride = require("method-override");
-const flash = require("express-flash");
+const mongoose = require("mongoose"); // Handle interaction with out database.
+const passport = require("passport"); // For handleing autothac
+const session = require("express-session"); // Enable us to stay logged in
+const MongoStore = require("connect-mongo")(session); // Enable us to stay logged in. Someone can close their browser, come back and stay logged in
+const methodOverride = require("method-override"); // So we don't have to use client side javascript
+const flash = require("express-flash"); // Notification for when error happens. EX: Email has been used error. 
 const logger = require("morgan");
-const connectDB = require("./config/database");
+const connectDB = require("./config/database"); // Holds our Database connect
 const mainRoutes = require("./routes/main");
 const postRoutes = require("./routes/posts");
+const commentRoutes = require("./routes/comments") // Bring in the routes comments
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -26,7 +27,7 @@ app.set("view engine", "ejs");
 //Static Folder
 app.use(express.static("public"));
 
-//Body Parsing
+//Body Parsing so we can look at the stuff coming in from the forms
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -54,8 +55,9 @@ app.use(passport.session());
 app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes);
-app.use("/post", postRoutes);
+app.use("/", mainRoutes); // If any '/' route come in. Use the mainRoutes file
+app.use("/post", postRoutes); // If any /post routes come in. Use the postRoutes
+app.use("/comment", commentRoutes) // For any routes that use the /comment go to this router
 
 //Server Running
 app.listen(process.env.PORT, () => {

@@ -6,7 +6,7 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: String,
+    type: String,  // we dont want to store media in our databse. Cloaudanery stores the image on their server and give us a url
     require: true,
   },
   cloudinaryId: {
@@ -22,7 +22,7 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId, // This is how we tie a post to a specific user
     ref: "User",
   },
   createdAt: {
@@ -31,4 +31,4 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Post", PostSchema); // "Post" is the collection name. It takes POST and makes it plural. You can also add a third parameter and call the database whatever you want

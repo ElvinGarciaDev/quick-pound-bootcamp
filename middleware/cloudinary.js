@@ -9,3 +9,6 @@ cloudinary.config({
 });
 
 module.exports = cloudinary;
+
+
+// cloudinary - when using cloudinary it stores your image on their hard drive and they give you a url to access that image

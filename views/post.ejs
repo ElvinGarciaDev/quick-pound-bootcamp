@@ -27,6 +27,28 @@
     <div class="col-3 mt-5">
       <p><%= post.caption %></p>
     </div>
+
+    <form action="/comment/createComment/<%= post.id %>" method="POST">
+      <input placeholder="Enter comment" name="text">
+      <button>Submit</button>
+    </form>
+
+
+
+    <ul>
+    <% for(let i = 0; i < comment.length; i++) {%>
+            
+      <li>
+        <span><%= comment[i].text %></span>
+        
+      </li>
+      
+      <% } %>
+    </ul>
+    
+
+
+
     <div class="col-6 mt-5">
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
       <a class="btn btn-primary" href="/feed">Return to Feed</a>

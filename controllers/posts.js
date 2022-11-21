@@ -1,10 +1,13 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
+const Comment = require("../models/Comment")
 
+
+// We are exporting an object and all these are async methods.
 module.exports = {
   getProfile: async (req, res) => {
     try {
-      const posts = await Post.find({ user: req.user.id });
+      const posts = await Post.find({ user: req.user.id }); // Only see logged in users photos
       res.render("profile.ejs", { posts: posts, user: req.user });
     } catch (err) {
       console.log(err);
@@ -20,8 +23,17 @@ module.exports = {
   },
   getPost: async (req, res) => {
     try {
-      const post = await Post.findById(req.params.id);
-      res.render("post.ejs", { post: post, user: req.user });
+      // Post is the schema for a gernal post
+      const post = await Post.findById(req.params.id); // .params.id getting the query paramater from the url
+
+
+      // When we go into the post. Also see if that post has any comments
+      const comment = await Comment.find({postId: req.params.id}); // .params.id getting the query paramater from the url
+      console.log(comment)
+
+
+
+      res.render("post.ejs", { post: post, user: req.user, comment: comment }); //Once a post that machtes this id is found. Send it to the post.ejs. Also send the comment array
     } catch (err) {
       console.log(err);
     }
@@ -31,6 +43,7 @@ module.exports = {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
+      // Use the Post schema to create a document and save it to mongoDB
       await Post.create({
         title: req.body.title,
         image: result.secure_url,
@@ -64,7 +77,7 @@ module.exports = {
       // Find post by id
       let post = await Post.findById({ _id: req.params.id });
       // Delete image from cloudinary
-      await cloudinary.uploader.destroy(post.cloudinaryId);
+      await cloudinary.uploader.destroy(post.cloudinaryId); // This deletes it from cloudinary becuase we no longer need it
       // Delete post from db
       await Post.remove({ _id: req.params.id });
       console.log("Deleted Post");
@@ -73,4 +86,27 @@ module.exports = {
       res.redirect("/profile");
     }
   },
+
+
+  // Create comment
+  // createComment: async (req, res) => {
+  //   try {
+
+  //     console.log(req.body)
+
+
+  //     // Use the Post schema to create a document and save it to mongoDB
+  //     await Comment.create({
+  //       text: req.body.text,
+  //       likes: 0,
+  //       user: req.user.id,
+  //       postId: req.params.id
+  //     });
+  //     console.log("Post has been added!");
+  //     res.redirect(`/post/${req.params.id}`); // Redirect back to the same post
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
+
 };
