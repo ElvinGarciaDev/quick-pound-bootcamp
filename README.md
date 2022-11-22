@@ -18,5 +18,3 @@
 # Run
 
 `npm start`
-# Think-Cafe
-# Think-Cafe
