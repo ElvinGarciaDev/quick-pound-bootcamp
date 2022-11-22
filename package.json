@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-
   },
   "author": "",
   "license": "MIT",
@@ -28,5 +27,14 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "validator": "^13.6.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElvinGarciaDev/quick-pound-bootcamp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ElvinGarciaDev/quick-pound-bootcamp/issues"
+  },
+  "homepage": "https://github.com/ElvinGarciaDev/quick-pound-bootcamp#readme"
 }
